@@ -13,29 +13,24 @@ const dataSetVG={
   url:"https://cdn.freecodecamp.org/testable-projects-fcc/data/tree_map/video-game-sales-data.json"
 }
 
-// const msUrl="https://cdn.freecodecamp.org/testable-projects-fcc/data/tree_map/movie-data.json"
-// const kpUrl="https://cdn.freecodecamp.org/testable-projects-fcc/data/tree_map/kickstarter-funding-data.json"
+const dataSetMS={
+  title:"Movies Sales",
+  description:"Top 100 Highest Grossing Movies Grouped By Genre",
+  url:"https://cdn.freecodecamp.org/testable-projects-fcc/data/tree_map/movie-data.json"
+}
 
-// let movieSalesData
-// let kickPledgesData
-
-
+const dataSetKP={
+  title:"Kickstarter Pledges",
+  description:"Top 100 Most Pledged Kickstarter Campaigns Grouped By Category",
+  url:"https://cdn.freecodecamp.org/testable-projects-fcc/data/tree_map/kickstarter-funding-data.json"
+}
 
 getData(dataSetVG.url)
 .then(d => render(d,dataSetVG))
 .catch(err => console.log(err) )
 
-// getData(msUrl)
-// .then(d =>movieSalesData=d)
-// .catch(err=> console.log(err) )
-
-// getData(kpUrl)
-// .then(d => kickPledgesData=d)
-// .catch(err=> console.log(err) )
-
-
   const render=(data,set)=>{
-
+   
     const width=1100
     const height=700
     const padding = {top:50,bottom:50,left:50,right:50}
@@ -87,9 +82,9 @@ getData(dataSetVG.url)
                 .sort((a, b) => b.value - a.value)
 
     d3.treemap()
-    .size([width, 600])
-    .padding(2)
-    (root)
+      .size([width, 600])
+      .padding(2)
+      (root)
 
     svg.selectAll("rect")
         .data(root.leaves())
@@ -145,47 +140,44 @@ getData(dataSetVG.url)
        .attr("transform", "translate(" + width/2 + "," + 160+ ")")
        .attr("id","description")
 
-    // d3.select("body").append("button")
-    //    .text("VideGames")
-    //    .attr("class","btn")
-    //    .attr("id","vgbtn")
-    //    .on("click",function(){
-    //        // //select new data
-    //        // if (dataIndex==1) {
-    //        //     dataIndex=2;  
-    //        // } else   {
-    //        //     dataIndex=1;
-    //        // }
-    //        // //rejoin data
-    //        // var circle = svgDoc.select("g").selectAll("circle")
-    //        //     .data(eval("dataArray"+dataIndex));
-           
-    //        // circle.exit().remove();//remove unneeded circles
-    //        // circle.enter().append("circle")
-    //        //     .attr("r",0);//create any new circles ne 
-    //        // //update all circles to new positions
-    //        // circle.transition()
-    //        //     .duration(500)
-    //        //     .attr("cx",function(d,i){
-    //        //         var spacing = lineLength/(eval("dataArray"+dataIndex).length);
-    //        //         return xBuffer+(i*spacing)
-    //        //     })
-    //        //     .attr("cy",yBuffer)
-    //        //     .attr("r",function(d,i){return  
-    //        // d3.select("text").text("dataset"+dataInd 
-    //    })//end click function
+    d3.select("body").append("button")
+       .text("VideGames")
+       .attr("class","btn")
+       .attr("id","vgbtn")
+       .on("click",()=>{
+
+        d3.selectAll("svg").remove()
        
-      
+        getData(dataSetVG.url)
+        .then(d => render(d,dataSetVG))
+        .catch(err => console.log(err) )
+       })
+    
+    d3.select("body").append("button")
+        .text("Movies")
+        .attr("class","btn")
+        .attr("id","mvbtn")
+        .on("click",()=>{
 
+          d3.selectAll("svg").remove()
+          
+          getData(dataSetMS.url)
+          .then(d => render(d,dataSetMS))
+          .catch(err => console.log(err) )
+        })
 
-    //         // d3.select("body").append("button")
-    //         // .text("Movies")
-    //         // .attr("class","btn")
-    //         // .attr("id","mvbtn")
-    //         // d3.select("body").append("button")
-    //         // .text("Pledges")
-    //         // .attr("class","btn")
-    //         // .attr("id","kpbtn")
+    d3.select("body").append("button")
+            .text("Pledges")
+            .attr("class","btn")
+            .attr("id","kpbtn")
+            .on("click",()=>{
+
+              d3.selectAll("svg").remove()
+
+              getData(dataSetKP.url)
+              .then(d => render(d,dataSetKP))
+              .catch(err => console.log(err) )
+             })
                 
 
     legend.selectAll("rect")
