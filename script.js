@@ -46,7 +46,7 @@ getData(dataSetVG.url)
       .style("left" , (event.pageX +15) + "px")
          .style("top" , (event.pageY +15) + "px")
          .html(`<p>${d.data.name} </p>
-         <p>Category:${d.data.category}%</p>
+         <p>Category:${d.data.category}</p>
          <p>Value:${d.data.value} </p>`)
 
         d3.select(event.target).attr("opacity",0.6)
@@ -160,7 +160,7 @@ getData(dataSetVG.url)
         .on("click",()=>{
 
           d3.selectAll("svg").remove()
-          
+
           getData(dataSetMS.url)
           .then(d => render(d,dataSetMS))
           .catch(err => console.log(err) )
@@ -179,6 +179,7 @@ getData(dataSetVG.url)
               .catch(err => console.log(err) )
              })
                 
+if(set!==dataSetKP){
 
     legend.selectAll("rect")
           .data(data.children)
@@ -199,6 +200,31 @@ getData(dataSetVG.url)
           .attr('x', (d, i) => i * (width/data.children.length)+15)
           .attr('y', 90)
           .text(d => d.data.name);
+
+}else{
+
+  legend.selectAll("rect")
+  .data(data.children)
+  .enter()
+  .append("rect")
+  .attr("class", "legend-item")
+  .style("stroke", "black")
+  .attr("x", (d, i) => i <6?250:i<12?550:850)
+  .attr("y",(d, i) => i <6?20+(i *18):i<12?20+(i *18)-108:20+(i *18)-216)
+  .attr("width", 15)
+  .attr("height", 15)
+  .style("fill", d => color(data.children.map(data=>data.name).indexOf(d.name)))
+
+legend.selectAll("text")
+  .data(root.children)
+  .enter()
+  .append("text")
+  .attr("x", (d, i) => 20+(i<6?250:i<12?550:850))
+  .attr("y",(d, i) => 15+(i <6?20+(i *18):i<12?20+(i *18)-108:20+(i *18)-216))
+  .text(d => d.data.name)
+  .attr("fill","white")
+
+}
 }
 
 
